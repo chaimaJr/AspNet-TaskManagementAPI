@@ -1,0 +1,23 @@
+# Build output
+bin/
+obj/
+
+# NuGet packages
+/packages/
+
+# Rider / JetBrains
+.idea/
+riderModule.iml
+/_ReSharper.Caches/
+
+# Databases (SQLite files)
+*.db
+
+# App settings
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Staging.json
+
+# Logs
+*.log
+
