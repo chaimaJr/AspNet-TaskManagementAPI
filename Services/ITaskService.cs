@@ -4,13 +4,13 @@ namespace TaskManagement.Services;
 public interface ITaskService
 {
     // Basic
-    public Task<List<Models.Task>> GetAllTasks();    // Task<T>: For Async/Await: Threading Task, Promise to return T (type)
-    public Task<Models.Task?> GetTask(int id);
-    public Task<Models.Task> CreateTask(Models.Task task);
-    public Task<Models.Task?> UpdateTask(Models.Task task);
-    public bool DeleteTask(int id);
+    Task<IEnumerable<Models.Task>> GetAllTasks();
+    Task<Models.Task?> GetTaskById(int id);
+    Task<Models.Task> CreateTask(Models.Task task);
+    Task<Models.Task?> UpdateTask(int id, Models.Task task);
+    Task<bool> DeleteTask(int id);
     
     // Extra 
-    public Task<Models.Task?> UpdateStatus(Models.Task task);
+    public Task<Models.Task?> UpdateStatus(int id);
 
 }
