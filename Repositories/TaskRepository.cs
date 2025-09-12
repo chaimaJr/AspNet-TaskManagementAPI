@@ -55,7 +55,7 @@ public class TaskRepository: ITaskRepository
         return true;
     }
 
-    public async Task<Task> UpdateStatus(Task task)
+    public async Task<Task?> UpdateStatus(Task task)
     {
         task.IsCompleted = !task.IsCompleted;
         _context.Tasks.Update(task);

@@ -13,6 +13,7 @@ public class Task
     public DateTime CreatedAt { get; set; }
     
     // Project Relation
-    public int ProjectId { get; set; }
-    [Required] public required Project Project { get; set; } = null!;
+    public int? ProjectId { get; set; }
+    public Project? Project { get; set; }
+    // [Required] public required Project Project { get; set; } = null!;
 }

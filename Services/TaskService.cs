@@ -8,6 +8,11 @@ namespace TaskManagement.Services;
 public class TaskService: ITaskService
 {
     private readonly ITaskRepository _taskRepo;
+
+    public TaskService(ITaskRepository taskRepo)
+    {
+        _taskRepo = taskRepo;
+    }
     
     public async Task<IEnumerable<Task>> GetAllTasks()
     {

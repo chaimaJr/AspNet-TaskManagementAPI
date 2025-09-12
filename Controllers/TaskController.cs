@@ -1,24 +1,69 @@
 using Microsoft.AspNetCore.Mvc;
+using TaskManagement.Services;
+using Task = TaskManagement.Models.Task;
 
 namespace TaskManagement.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class TaskController : Controller
+public class TaskController : ControllerBase
 {
-    // GET
+    private readonly ITaskService _taskService;
+
+    public TaskController(ITaskService taskService)
+    {
+        _taskService = taskService;
+    }
+    
+    // GET ALL
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<ActionResult<IEnumerable<Models.Task>>> GetAllTasks()
     {
-        return Ok();
+        var tasks = await _taskService.GetAllTasks();
+
+        return Ok(tasks);
     }
     
+    // GET ONE
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Models.Task>> GetTask(int id)
+    {
+        var task = await _taskService.GetTaskById(id);
+        return Ok(task);
+    }
     
-    // Create
+    // CREATE
     [HttpPost]
-    public IActionResult Create()
+    public async Task<ActionResult<Models.Task>> CreateTask(string title, string description)
     {
-        return Ok();
+
+        var task = new Task
+        {
+            Title = title,
+            Description = description
+        };
+        
+        var t = await _taskService.CreateTask(task);
+        
+        return CreatedAtAction(
+            nameof(GetTask), 
+            new { id = t.Id },
+            t
+        );
     }
+    
+        
+    
+    // UPDATE
+    
+    
+    
+    // DELETE
+    
+    
+    
+    // CHANGE STATUS
+    
+    
     
 }

@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TaskManagement.Data;
+using TaskManagement.Repositories;
+using TaskManagement.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,10 @@ builder.Services.AddSwaggerGen();
 // DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Repository
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddScoped<ITaskService, TaskService>();
 
 
 var app = builder.Build();
