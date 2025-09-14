@@ -6,15 +6,8 @@ namespace TaskManagement.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class TaskController : ControllerBase
+public class TaskController(ITaskService _taskService) : ControllerBase
 {
-    private readonly ITaskService _taskService;
-
-    public TaskController(ITaskService taskService)
-    {
-        _taskService = taskService;
-    }
-    
     // GET ALL
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Models.Task>>> GetAllTasks()
@@ -29,41 +22,48 @@ public class TaskController : ControllerBase
     public async Task<ActionResult<Models.Task>> GetTask(int id)
     {
         var task = await _taskService.GetTaskById(id);
+        if (task == null)
+            return NotFound($"Task with id {id} not found");
+
         return Ok(task);
     }
     
-    // CREATE
-    [HttpPost]
-    public async Task<ActionResult<Models.Task>> CreateTask(string title, string description)
+    
+    // UPDATE
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Models.Task>> UpdateTask(int id, string? title, string? description)
     {
-
         var task = new Task
         {
             Title = title,
             Description = description
         };
-        
-        var t = await _taskService.CreateTask(task);
-        
-        return CreatedAtAction(
-            nameof(GetTask), 
-            new { id = t.Id },
-            t
-        );
+        var updatedTask = await _taskService.UpdateTask(id, task);
+        return Ok(updatedTask);
     }
-    
-        
-    
-    // UPDATE
-    
     
     
     // DELETE
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<bool>> DeleteTask(int id)
+    {
+        var success = await _taskService.DeleteTask(id);
+        if (!success)
+            return NotFound($"Task with id {id} not found");
     
-    
+        return NoContent();
+    }     
     
     // CHANGE STATUS
-    
+    [HttpPatch("{id}")]
+    public async Task<ActionResult<Task>> UpdateStatus(int id)
+    {
+        var task = await _taskService.UpdateStatus(id);
+        if (task == null)
+            return NotFound($"Task with id {id} not found");
+
+        return Ok(task);
+    }
     
     
 }

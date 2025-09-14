@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace TaskManagement.Models;
 
@@ -13,7 +14,7 @@ public class Task
     public DateTime CreatedAt { get; set; }
     
     // Project Relation
-    public int? ProjectId { get; set; }
-    public Project? Project { get; set; }
-    // [Required] public required Project Project { get; set; } = null!;
+    [JsonIgnore][Required] 
+    public Project Project { get; set; } = null!;
+    public int ProjectId { get; set; }
 }

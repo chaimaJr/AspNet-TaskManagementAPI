@@ -41,8 +41,8 @@ public class TaskService: ITaskService
         if (existingTask == null)
             return null;
         
-        existingTask.Title = task.Title;
-        existingTask.Description = task.Description;
+        existingTask.Title = task.Title ?? existingTask.Title;
+        existingTask.Description = task.Description ?? existingTask.Description;
         
         return await _taskRepo.UpdateTask(existingTask);
     }

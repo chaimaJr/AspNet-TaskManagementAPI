@@ -9,7 +9,7 @@ public class ProjectRepository(ApplicationDbContext context) : IProjectRepositor
     public async Task<IEnumerable<Project>> GetAllProjects()
     {
         return await context.Projects
-            .OrderBy(p => p.Name)
+            .OrderBy(p => p.CreatedAt)
             .Include(p => p.Tasks)
             .ToListAsync();
     }
@@ -17,7 +17,8 @@ public class ProjectRepository(ApplicationDbContext context) : IProjectRepositor
     public async Task<Project?> GetProject(int id)
     {
         return await context.Projects
-            .FindAsync(id);
+            .Include(p => p.Tasks)
+            .FirstOrDefaultAsync(p => p.Id == id);
     }
 
     public async Task<Project> CreateProject(Project project)
